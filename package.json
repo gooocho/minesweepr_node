@@ -1,0 +1,26 @@
+{
+  "name": "minesweepr_node",
+  "version": "1.0.0",
+  "description": "yet another implementation minesweepr(https://github.com/mrgriscom/minesweepr/)",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "gocho <basabasafoo@gmail.com> (https://github.com/gooocho)",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.9",
+    "@types/react-dom": "^17.0.6",
+    "html-webpack-plugin": "^5.3.1",
+    "ts-loader": "^9.2.3",
+    "typescript": "^4.3.2",
+    "webpack-cli": "^4.7.2"
+  }
+}
