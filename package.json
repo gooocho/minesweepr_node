@@ -5,7 +5,7 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "keywords": [],
   "author": "gocho <basabasafoo@gmail.com> (https://github.com/gooocho)",
@@ -13,12 +13,17 @@
   "dependencies": {
     "express": "^4.17.1",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "xorshift.js": "^1.0.5"
   },
   "devDependencies": {
+    "@types/jest": "^26.0.23",
     "@types/react": "^17.0.9",
     "@types/react-dom": "^17.0.6",
     "html-webpack-plugin": "^5.3.1",
+    "jest": "^27.0.4",
+    "ts-dedent": "^2.1.1",
+    "ts-jest": "^27.0.3",
     "ts-loader": "^9.2.3",
     "typescript": "^4.3.2",
     "webpack-cli": "^4.7.2"

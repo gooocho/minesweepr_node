@@ -1,14 +1,12 @@
 import React from "react";
-import { Field } from "../game/field";
+import { MineMap } from "../game/sized_map/mine_map";
 
-const field = Field.newField(3, 3, 3);
-
-export function Body() {
+export function Body(props: {mineMap: MineMap}) {
   return (
     <div>
-      here is gameBody
+      here is Body
       <pre>
-        {field.print()}
+        {props.mineMap.print()}
       </pre>
     </div>
   );
