@@ -37,7 +37,7 @@ export class GameState {
     return this.flagMap.isOn(x, y);
   }
 
-  isOpened(x: number, y: number) {
+  isOpen(x: number, y: number) {
     return this.numberMap.number(x, y) !== NumberMap.EMPTY;
   }
 

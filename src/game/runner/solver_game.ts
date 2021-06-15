@@ -28,7 +28,7 @@ export class SolverGame implements Game {
     return this;
   }
 
-  isOpened(x: number, y: number) {
+  isOpen(x: number, y: number) {
     // FIXME
     return false;
   }

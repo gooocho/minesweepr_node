@@ -60,8 +60,8 @@ export class LocalGame implements Game {
     }
   }
 
-  isOpened(x: number, y: number) {
-    return this.gameState.isOpened(x, y);
+  isOpen(x: number, y: number) {
+    return this.gameState.isOpen(x, y);
   }
 
   number(x: number, y: number) {
