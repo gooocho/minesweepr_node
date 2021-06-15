@@ -27,7 +27,7 @@ describe('BigintMap', () => {
     }
   });
 
-  test('surroundingCount', () => {
+  test('adjacentCount', () => {
     const bigintMap1 = BigintMap.newRandomMap(6, 5, 15, [0, 0, 0, 0]);
     // 111111
     // 111111
@@ -35,39 +35,39 @@ describe('BigintMap', () => {
     // 000000
     // 000000
 
-    expect(bigintMap1.surroundingCount(0, 0)).toBe(3);
-    expect(bigintMap1.surroundingCount(1, 0)).toBe(5);
-    expect(bigintMap1.surroundingCount(2, 0)).toBe(5);
-    expect(bigintMap1.surroundingCount(3, 0)).toBe(5);
-    expect(bigintMap1.surroundingCount(4, 0)).toBe(5);
-    expect(bigintMap1.surroundingCount(5, 0)).toBe(3);
+    expect(bigintMap1.adjacentCount(0, 0)).toBe(3);
+    expect(bigintMap1.adjacentCount(1, 0)).toBe(5);
+    expect(bigintMap1.adjacentCount(2, 0)).toBe(5);
+    expect(bigintMap1.adjacentCount(3, 0)).toBe(5);
+    expect(bigintMap1.adjacentCount(4, 0)).toBe(5);
+    expect(bigintMap1.adjacentCount(5, 0)).toBe(3);
 
-    expect(bigintMap1.surroundingCount(0, 1)).toBe(5);
-    expect(bigintMap1.surroundingCount(1, 1)).toBe(8);
-    expect(bigintMap1.surroundingCount(2, 1)).toBe(7);
-    expect(bigintMap1.surroundingCount(3, 1)).toBe(6);
-    expect(bigintMap1.surroundingCount(4, 1)).toBe(5);
-    expect(bigintMap1.surroundingCount(5, 1)).toBe(3);
+    expect(bigintMap1.adjacentCount(0, 1)).toBe(5);
+    expect(bigintMap1.adjacentCount(1, 1)).toBe(8);
+    expect(bigintMap1.adjacentCount(2, 1)).toBe(7);
+    expect(bigintMap1.adjacentCount(3, 1)).toBe(6);
+    expect(bigintMap1.adjacentCount(4, 1)).toBe(5);
+    expect(bigintMap1.adjacentCount(5, 1)).toBe(3);
 
-    expect(bigintMap1.surroundingCount(0, 2)).toBe(3);
-    expect(bigintMap1.surroundingCount(1, 2)).toBe(5);
-    expect(bigintMap1.surroundingCount(2, 2)).toBe(4);
-    expect(bigintMap1.surroundingCount(3, 2)).toBe(4);
-    expect(bigintMap1.surroundingCount(4, 2)).toBe(3);
-    expect(bigintMap1.surroundingCount(5, 2)).toBe(2);
+    expect(bigintMap1.adjacentCount(0, 2)).toBe(3);
+    expect(bigintMap1.adjacentCount(1, 2)).toBe(5);
+    expect(bigintMap1.adjacentCount(2, 2)).toBe(4);
+    expect(bigintMap1.adjacentCount(3, 2)).toBe(4);
+    expect(bigintMap1.adjacentCount(4, 2)).toBe(3);
+    expect(bigintMap1.adjacentCount(5, 2)).toBe(2);
 
-    expect(bigintMap1.surroundingCount(0, 3)).toBe(2);
-    expect(bigintMap1.surroundingCount(1, 3)).toBe(3);
-    expect(bigintMap1.surroundingCount(2, 3)).toBe(2);
-    expect(bigintMap1.surroundingCount(3, 3)).toBe(1);
-    expect(bigintMap1.surroundingCount(4, 3)).toBe(0);
-    expect(bigintMap1.surroundingCount(5, 3)).toBe(0);
+    expect(bigintMap1.adjacentCount(0, 3)).toBe(2);
+    expect(bigintMap1.adjacentCount(1, 3)).toBe(3);
+    expect(bigintMap1.adjacentCount(2, 3)).toBe(2);
+    expect(bigintMap1.adjacentCount(3, 3)).toBe(1);
+    expect(bigintMap1.adjacentCount(4, 3)).toBe(0);
+    expect(bigintMap1.adjacentCount(5, 3)).toBe(0);
 
-    expect(bigintMap1.surroundingCount(0, 4)).toBe(0);
-    expect(bigintMap1.surroundingCount(1, 4)).toBe(0);
-    expect(bigintMap1.surroundingCount(2, 4)).toBe(0);
-    expect(bigintMap1.surroundingCount(3, 4)).toBe(0);
-    expect(bigintMap1.surroundingCount(4, 4)).toBe(0);
-    expect(bigintMap1.surroundingCount(5, 4)).toBe(0);
+    expect(bigintMap1.adjacentCount(0, 4)).toBe(0);
+    expect(bigintMap1.adjacentCount(1, 4)).toBe(0);
+    expect(bigintMap1.adjacentCount(2, 4)).toBe(0);
+    expect(bigintMap1.adjacentCount(3, 4)).toBe(0);
+    expect(bigintMap1.adjacentCount(4, 4)).toBe(0);
+    expect(bigintMap1.adjacentCount(5, 4)).toBe(0);
   });
 });

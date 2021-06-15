@@ -50,7 +50,7 @@ export class BooleanMap implements SizedBooleanMap {
     return Boolean(this.dataBody[y * this.width + x]);
   }
 
-  surroundingCount(x: number, y: number): number {
+  adjacentCount(x: number, y: number): number {
     const isTop = Number(y === 0);
     const isBottom = Number(y === this.height - 1);
     const isLeft = Number(x === 0);

@@ -73,7 +73,7 @@ export class BigintMap implements SizedBooleanMap {
     return Boolean(this.dataBody & (1n << (this.widthN * yN + xN)));
   }
 
-  surroundingCount(x: number, y: number): number {
+  adjacentCount(x: number, y: number): number {
     const xN = BigInt(x);
     const yN = BigInt(y);
     const indexN = 1n << (this.widthN * yN + xN);

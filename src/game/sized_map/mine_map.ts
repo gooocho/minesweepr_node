@@ -32,8 +32,8 @@ export class MineMap {
     return this.dataBody.isOn(x, y);
   }
 
-  surroundingCount(x: number, y: number) {
-    return this.dataBody.surroundingCount(x, y);
+  adjacentCount(x: number, y: number) {
+    return this.dataBody.adjacentCount(x, y);
   }
 
   print() {

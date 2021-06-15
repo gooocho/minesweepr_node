@@ -27,9 +27,9 @@ export class LocalRunner extends Runner {
   }
 
   async chording(x: number, y: number) {
-    // TODO: count surrounding flags
+    // TODO: count adjacent flags
     // TODO: if surrounidngFlagCount === this.numberMap.number(x, y)
-    // surrounding.forEach((x, y) => { this.open(x, y) })
+    // adjacent.forEach((x, y) => { this.open(x, y) })
   }
 
   async open(x: number, y: number) {
@@ -41,8 +41,8 @@ export class LocalRunner extends Runner {
     if (this.mineMap.isMine(x, y)) {
       this.boom();
     } else {
-      const surroundingMineCount = this.mineMap.surroundingCount(x, y);
-      this.runnerState = this.runnerState.open(x, y, surroundingMineCount);
+      const adjacentMineCount = this.mineMap.adjacentCount(x, y);
+      this.runnerState = this.runnerState.open(x, y, adjacentMineCount);
       if (this.isWin()) {
         this.win();
       }

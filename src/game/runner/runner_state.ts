@@ -37,7 +37,7 @@ export class RunnerState {
     return this.flagMap.isOn(x, y);
   }
 
-  open(x: number, y: number, surroundingMineCount: number) {
+  open(x: number, y: number, adjacentMineCount: number) {
     // FIXME: update numberMap
     return new RunnerState(
       this.width,
