@@ -6,8 +6,8 @@ export class Menu extends React.Component<any, any> {
       <div>
         <div>
           <p>here is Menu</p>
-          <p>mine: <input type="number" value="10"/></p>
-          <p>size: <input type="number" value="10" /> * <input type="number" value="10"/></p>
+          <p>mine: <input type="number" defaultValue="10" /></p>
+          <p>size: <input type="number" defaultValue="10" /> * <input type="number" defaultValue="10" /></p>
         </div>
         <button>start</button>
       </div>

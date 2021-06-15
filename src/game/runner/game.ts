@@ -2,31 +2,14 @@ import { GameState } from "./game_state";
 import { NotImprementedError } from "../error/not_impremented_error";
 import { XorshiftSeed } from "../lib/xorshift_seed";
 
-export class Game {
-  gameState: GameState;
+export interface Game {
+  open(x: number, y: number): Promise<Game>;
 
-  constructor(gameState: GameState) {
-    this.gameState = gameState;
-  }
+  isOpened(x: number, y: number): boolean;
 
-  newGame(
-    width: number,
-    height: number,
-    mineCount: number,
-    seed: XorshiftSeed
-  ) {
-    throw new NotImprementedError();
-  }
-
-  open(x: number, y: number) {
-    throw new NotImprementedError();
-  }
+  number(x: number, y: number): number;
 
   // boom() {}
 
   // solved() {}
-
-  print() {
-    return this.gameState.print();
-  }
 }
