@@ -76,7 +76,7 @@ export class BigintMap implements SizedBooleanMap {
   adjacentCount(x: number, y: number): number {
     const xN = BigInt(x);
     const yN = BigInt(y);
-    const indexN = 1n << (this.widthN * yN + xN);
+    const indexN = this.widthN * yN + xN;
 
     const isTop = Number(y === 0);
     const isBottom = Number(y === this.height - 1);
