@@ -23,11 +23,12 @@ export class NumberMap {
   }
 
   static newFilledMap(width: number, height: number, fillValue: number) {
+    const dataCount = fillValue === NumberMap.EMPTY ? 0 : width * height;
     return new NumberMap(
       width,
       height,
       [...new Array(width * height)].fill(fillValue),
-      width * height
+      dataCount
     );
   }
 
