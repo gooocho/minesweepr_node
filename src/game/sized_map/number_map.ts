@@ -65,6 +65,10 @@ export class NumberMap {
     return new NumberMap(width, height, dataBody, dataCount);
   }
 
+  number(x: number, y: number) {
+    return this.dataBody[y * this.width + x];
+  }
+
   update(x: number, y: number, number: number) {
     const dup = [...this.dataBody];
 

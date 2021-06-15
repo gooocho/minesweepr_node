@@ -1,9 +1,9 @@
-import { LocalRunner } from "../../src/game/runner/local_runner";
+import { LocalGame } from "../../src/game/runner/local_game";
 import dedent from 'ts-dedent';
 
 test('test', () => {
-  const localRunner1 = LocalRunner.newGame(9, 9, 10, [0, 0, 0, 0]);
-  expect(localRunner1.print()).toBe(dedent`
+  const localGame1 = LocalGame.newGame(9, 9, 10, [0, 0, 0, 0]);
+  expect(localGame1.print()).toBe(dedent`
     width: 9
     height: 9
     mineMap:

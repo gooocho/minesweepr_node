@@ -2,7 +2,7 @@ import { NumberMap } from "../sized_map/number_map";
 import { BooleanMap } from "../sized_map/boolean_map";
 import { SizedBooleanMap } from "../sized_map/sized_boolean_map";
 
-export class RunnerState {
+export class GameState {
   width: number;
   height: number;
   mineCount: number;
@@ -24,7 +24,7 @@ export class RunnerState {
   }
 
   static newGame(width: number, height: number, mineCount: number) {
-    return new RunnerState(
+    return new GameState(
       width,
       height,
       mineCount,
@@ -37,9 +37,17 @@ export class RunnerState {
     return this.flagMap.isOn(x, y);
   }
 
+  isOpened(x: number, y: number) {
+    return this.numberMap.number(x, y) !== NumberMap.EMPTY;
+  }
+
+  number(x: number, y: number) {
+    return this.numberMap.number(x, y);
+  }
+
   open(x: number, y: number, adjacentMineCount: number) {
     // FIXME: update numberMap
-    return new RunnerState(
+    return new GameState(
       this.width,
       this.height,
       this.mineCount,
@@ -50,7 +58,7 @@ export class RunnerState {
 
   toggleFlag(x: number, y: number) {
     // FIXME: update flagMap
-    return new RunnerState(
+    return new GameState(
       this.width,
       this.height,
       this.mineCount,

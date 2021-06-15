@@ -1,22 +1,25 @@
 import React from "react";
+import { CellList } from "./cell/cell_list";
 import { ClosedCell } from "./cell/closed_cell";
 import { OpenedCell } from "./cell/opened_cell";
 
 export class Body extends React.Component<any, any> {
   render() {
-    const matrix = []
-    for (let y = 0; y < 8; ++y) {
-      const buttonRow = [];
-      for (let x = 0; x < 9; ++x) {
-        buttonRow.push(<ClosedCell size="32" />);
+    const localRunner = this.props.localRunner;
+
+    const matrix = [];
+    console.info(localRunner.height, localRunner.width);
+    for (let y = 0; y < localRunner.height; ++y) {
+      const cellList = [];
+      for (let x = 0; x < localRunner.width; ++x) {
+        if (localRunner.isOpened(x, y)) {
+          cellList.push(<OpenedCell size="32" />);
+        } else {
+          cellList.push(<ClosedCell size="32" />);
+        }
       }
-      matrix.push(<div className="row">{buttonRow}</div>);
+      matrix.push(<CellList cellList={cellList} />);
     }
-    const openedRow = [];
-    for (let x = 0; x < 9; ++x) {
-      openedRow.push(<OpenedCell size="32" number="1" />);
-    }
-    matrix.push(<div className="row">{openedRow}</div>);
 
     return (
       <div>
@@ -25,7 +28,7 @@ export class Body extends React.Component<any, any> {
           { matrix }
         </div>
         <pre>
-          {this.props.mineMap.print()}
+          { localRunner.mineMap.print() }
         </pre>
       </div>
     );

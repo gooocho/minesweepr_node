@@ -1,9 +1,9 @@
 import React from "react";
 import { Menu } from "./menu";
 import { Body } from "./body";
-import { LocalRunner } from "../game/runner/local_runner";
+import { LocalGame } from "../game/runner/local_game";
 
-const localRunner1 = LocalRunner.newGame(9, 9, 10, [0, 0, 0, 0]);
+const localRunner1 = LocalGame.newGame(9, 9, 10, [0, 0, 0, 0]);
 
 export class Runner extends React.Component<any, any> {
   render() {
@@ -11,7 +11,7 @@ export class Runner extends React.Component<any, any> {
       <div>
         <Menu />
         <hr />
-        <Body mineMap={localRunner1.mineMap} />
+        <Body localRunner={localRunner1} />
       </div>
     );
   }
