@@ -1,7 +1,8 @@
 # minesweepr_node
 
 clone of https://github.com/akashbdj/minesweepr
-implemented in TypeScript and NodeJS
+
+rewritten in TypeScript and NodeJS
 
 # LICENSE
 
