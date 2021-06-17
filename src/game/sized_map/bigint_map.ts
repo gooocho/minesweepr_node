@@ -1,7 +1,4 @@
 import { SizedBooleanMap } from "./sized_boolean_map";
-import { randomBits } from "../lib/radom_bits";
-import { bigintBitCount } from "../lib/bigint_bitcount";
-import { XorshiftSeed } from "../lib/xorshift_seed";
 
 export class BigintMap implements SizedBooleanMap {
   static OFF = 0n;
@@ -54,17 +51,11 @@ export class BigintMap implements SizedBooleanMap {
     );
   }
 
-  static newRandomMap(
-    width: number,
-    height: number,
-    count: number,
-    seed: XorshiftSeed
-  ) {
-    return new BigintMap(
-      width,
-      height,
-      randomBits(width * height, count, seed)
-    );
+  is(x: number, y: number, value: boolean) {
+    const xN = BigInt(x);
+    const yN = BigInt(y);
+    const indexN = this.widthN * yN + xN;
+    return ((this.dataBody >> indexN) & 1n) === BigInt(value);
   }
 
   isOn(x: number, y: number): boolean {
@@ -78,111 +69,34 @@ export class BigintMap implements SizedBooleanMap {
     const yN = BigInt(y);
     const indexN = this.widthN * yN + xN;
 
-    const isTop = Number(y === 0);
-    const isBottom = Number(y === this.height - 1);
-    const isLeft = Number(x === 0);
-    const isRight = Number(x === this.width - 1);
-    const positionPattern =
-      (isTop << 3) | (isBottom << 2) | (isLeft << 1) | (isRight << 0);
+    let offsetList: [number, number, bigint][] = [
+      [-1, -1, -this.widthN - 1n],
+      [+0, -1, -this.widthN],
+      [+1, -1, -this.widthN + 1n],
+      [-1, +0, -1n],
+      [+1, +0, 1n],
+      [-1, +1, this.widthN - 1n],
+      [+0, +1, this.widthN],
+      [+1, +1, this.widthN + 1n],
+    ];
 
-    switch (positionPattern) {
-      case 0b0000:
-        // center
-        return bigintBitCount(
-          this.dataBody &
-            ((1n << (indexN - this.widthN - 1n)) |
-              (1n << (indexN - this.widthN + 0n)) |
-              (1n << (indexN - this.widthN + 1n)) |
-              (1n << (indexN - 1n)) |
-              (1n << (indexN + 1n)) |
-              (1n << (indexN + this.widthN - 1n)) |
-              (1n << (indexN + this.widthN + 0n)) |
-              (1n << (indexN + this.widthN + 1n)))
-        );
-      case 0b0001:
-        // right edge
-        return bigintBitCount(
-          this.dataBody &
-            ((1n << (indexN - this.widthN - 1n)) |
-              (1n << (indexN - this.widthN + 0n)) |
-              (1n << (indexN - 1n)) |
-              (1n << (indexN + this.widthN - 1n)) |
-              (1n << (indexN + this.widthN + 0n)))
-        );
-      case 0b0010:
-        // left edge
-        return bigintBitCount(
-          this.dataBody &
-            ((1n << (indexN - this.widthN + 0n)) |
-              (1n << (indexN - this.widthN + 1n)) |
-              (1n << (indexN + 1n)) |
-              (1n << (indexN + this.widthN + 0n)) |
-              (1n << (indexN + this.widthN + 1n)))
-        );
-      case 0b0100:
-        // bottom edge
-        return bigintBitCount(
-          this.dataBody &
-            ((1n << (indexN - this.widthN - 1n)) |
-              (1n << (indexN - this.widthN + 0n)) |
-              (1n << (indexN - this.widthN + 1n)) |
-              (1n << (indexN - 1n)) |
-              (1n << (indexN + 1n)))
-        );
-      case 0b0101:
-        // bottom right corner
-        return bigintBitCount(
-          this.dataBody &
-            ((1n << (indexN - this.widthN - 1n)) |
-              (1n << (indexN - this.widthN + 0n)) |
-              (1n << (indexN - 1n)))
-        );
-      case 0b0110:
-        // bottom left corner
-        return bigintBitCount(
-          this.dataBody &
-            ((1n << (indexN - this.widthN + 0n)) |
-              (1n << (indexN - this.widthN + 1n)) |
-              (1n << (indexN + 1n)))
-        );
-      case 0b1000:
-        // top edge
-        return bigintBitCount(
-          this.dataBody &
-            ((1n << (indexN - 1n)) |
-              (1n << (indexN + 1n)) |
-              (1n << (indexN + this.widthN - 1n)) |
-              (1n << (indexN + this.widthN + 0n)) |
-              (1n << (indexN + this.widthN + 1n)))
-        );
-      case 0b1001:
-        // top right corner
-        return bigintBitCount(
-          this.dataBody &
-            ((1n << (indexN - 1n)) |
-              (1n << (indexN + this.widthN - 1n)) |
-              (1n << (indexN + this.widthN + 0n)))
-        );
-      case 0b1010:
-        // top left corner
-        return bigintBitCount(
-          this.dataBody &
-            ((1n << (indexN + 1n)) |
-              (1n << (indexN + this.widthN + 0n)) |
-              (1n << (indexN + this.widthN + 1n)))
-        );
-      // impossible
-      // case 0b0011:
-      // case 0b0111:
-      // case 0b1011:
-      // case 0b1100:
-      // case 0b1101:
-      // case 0b1110:
-      // case 0b1111:
-      default:
-        // out of bounds
-        return -1;
-    }
+    return Number(
+      offsetList
+        .filter(
+          ([offsetX, offsetY, offset]) =>
+            !(
+              (offsetY === -1 && y === 0) ||
+              (offsetY === +1 && y === this.height - 1) ||
+              (offsetX === -1 && x === 0) ||
+              (offsetX === +1 && x === this.width - 1)
+            )
+        )
+        .map(
+          ([offsetX, offsetY, offset]) =>
+            (this.dataBody >> (indexN + offset)) & 1n
+        )
+        .reduce((a: bigint, c: bigint) => a + c, 0n)
+    );
   }
 
   toggle(x: number, y: number) {
@@ -190,6 +104,12 @@ export class BigintMap implements SizedBooleanMap {
       this.width,
       this.height,
       this.dataBody ^ (1n << BigInt(this.width * y + x))
+    );
+  }
+
+  toNumberArray() {
+    return [...new Array(this.width * this.height)].map((_, index) =>
+      Number(this.dataBody & (1n << BigInt(index)))
     );
   }
 

@@ -1,7 +1,8 @@
+import { SizedMap } from "./sized_map";
 import { ParseError } from "../error/parse_error";
 import { ArgumentError } from "../error/argument_error";
 
-export class NumberMap {
+export class NumberMap implements SizedMap<number> {
   static EMPTY = -1;
   static EMPTY_STR = "_";
 
@@ -64,6 +65,10 @@ export class NumberMap {
     }
 
     return new NumberMap(width, height, dataBody, dataCount);
+  }
+
+  is(x: number, y: number, value: number) {
+    return this.dataBody[y * this.width + x] === value;
   }
 
   number(x: number, y: number) {

@@ -27,7 +27,8 @@ export class Body extends React.Component<any, any> {
               x={x}
               y={y}
               opened={game.isOpen(x, y)}
-              number={game.number(x, y)} />
+              number={game.number(x, y)}
+              open={async (x: number, y: number) => await game.open(x, y)} />
           )} />
       );
     })

@@ -1,18 +1,14 @@
 import { BooleanMap } from "../../src/game/sized_map/boolean_map";
-import dedent from 'ts-dedent';
+import dedent from "ts-dedent";
 
-describe('BigintMap', () => {
-  test('newRandomMap', () => {
-    const bigintMap1 = BooleanMap.newRandomMap(6, 5, 15, [0, 0, 0, 0]);
-    expect(bigintMap1.toBinaryStr()).toBe(dedent`
-      111111111111111000000000000000
-    `);
-  });
-
-  test('isOn', () => {
+describe("BigintMap", () => {
+  test("isOn", () => {
     const width = 6;
     const height = 5;
-    const booleanMap1 = BooleanMap.newRandomMap(6, 5, 15, [0, 0, 0, 0]);
+    const booleanMap1 = new BooleanMap(6, 5, [
+      ...[...new Array(15)].fill(true),
+      ...[...new Array(15)].fill(false),
+    ]);
 
     for (let index = 0; index < 15; ++index) {
       const x = index % width;
@@ -27,13 +23,16 @@ describe('BigintMap', () => {
     }
   });
 
-  test('adjacentCount', () => {
-    const booleanMap1 = BooleanMap.newRandomMap(6, 5, 15, [0, 0, 0, 0]);
+  test("adjacentCount", () => {
     // 111111
     // 111111
     // 111000
     // 000000
     // 000000
+    const booleanMap1 = new BooleanMap(6, 5, [
+      ...[...new Array(15)].fill(true),
+      ...[...new Array(15)].fill(false),
+    ]);
 
     expect(booleanMap1.adjacentCount(0, 0)).toBe(3);
     expect(booleanMap1.adjacentCount(1, 0)).toBe(5);

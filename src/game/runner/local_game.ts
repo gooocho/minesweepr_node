@@ -49,12 +49,13 @@ export class LocalGame implements Game {
       return this;
     } else {
       const adjacentMineCount = this.mineMap.adjacentCount(x, y);
-      this.gameState = this.gameState.open(x, y, adjacentMineCount);
+      this.gameState = this.gameState.update(x, y, adjacentMineCount);
+
       if (this.isWin()) {
         this.win();
       }
       return new LocalGame(
-        this.gameState.open(x, y, adjacentMineCount),
+        this.gameState.update(x, y, adjacentMineCount),
         this.mineMap
       );
     }

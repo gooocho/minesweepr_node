@@ -1,5 +1,6 @@
 import { SizedBooleanMap } from "./sized_boolean_map";
 import { BigintMap } from "./bigint_map";
+import { randomBits } from "../lib/radom_bits";
 import { XorshiftSeed } from "../lib/xorshift_seed";
 import dedent from "ts-dedent";
 
@@ -7,11 +8,19 @@ export class MineMap {
   width: number;
   height: number;
   dataBody: SizedBooleanMap;
+  adjacentMap: number[];
 
   constructor(width: number, height: number, dataBody: SizedBooleanMap) {
     this.width = width;
     this.height = height;
     this.dataBody = dataBody;
+
+    this.adjacentMap = [];
+    for (let y = 0; y < height; ++y) {
+      for (let x = 0; x < width; ++x) {
+        this.adjacentMap.push(dataBody.adjacentCount(x, y));
+      }
+    }
   }
 
   static newGame(
@@ -20,11 +29,15 @@ export class MineMap {
     mineCount: number,
     seed: XorshiftSeed
   ) {
-    // TODO: BigintMap or BooleanMap?
     return new MineMap(
       width,
       height,
-      BigintMap.newRandomMap(width, height, mineCount, seed)
+      // TODO: BigintMap or BooleanMap?
+      new BigintMap(
+        width,
+        height,
+        randomBits(width * height, mineCount, seed)
+      )
     );
   }
 

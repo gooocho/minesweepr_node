@@ -29,7 +29,8 @@ export class GameState {
       height,
       mineCount,
       NumberMap.newFilledMap(width, height, NumberMap.EMPTY),
-      BooleanMap.newFilledMap(width, height, BooleanMap.OFF)
+      // FIXME: BooleanMap or BigintMap?
+      BooleanMap.newFilledMap(width, height, false)
     );
   }
 
@@ -45,25 +46,23 @@ export class GameState {
     return this.numberMap.number(x, y);
   }
 
-  open(x: number, y: number, adjacentMineCount: number) {
-    // FIXME: update numberMap
+  update(x: number, y: number, adjacentMineCount: number) {
     return new GameState(
       this.width,
       this.height,
       this.mineCount,
-      this.numberMap,
+      this.numberMap.update(x, y, adjacentMineCount),
       this.flagMap
     );
   }
 
   toggleFlag(x: number, y: number) {
-    // FIXME: update flagMap
     return new GameState(
       this.width,
       this.height,
       this.mineCount,
       this.numberMap,
-      this.flagMap
+      this.flagMap.toggle(x, y)
     );
   }
 
