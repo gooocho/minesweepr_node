@@ -1,18 +1,41 @@
 import React from "react";
-import { Menu } from "./menu";
-import { Body } from "./body";
+import { Menu } from "./menu/menu";
+import { Body } from "./body/body";
+import { Game } from "../game/runner/game";
 import { LocalGame } from "../game/runner/local_game";
 
-const localGame1 = LocalGame.newGame(9, 9, 10, [0, 0, 0, 0]);
+type PropsType = {};
+type StateType = {game: Game};
 
-export class Runner extends React.Component<{}, {}> {
+export class Runner extends React.Component<PropsType, StateType> {
+  constructor(props: PropsType) {
+    super(props);
+    this.handleStart = this.handleStart.bind(this);
+  }
+
+  handleStart(width: number, height: number, mineCount: number) {
+    this.setState({
+      game: LocalGame.newGame(
+        width, height, mineCount, [0, 0, 0, 0]
+      )
+    });
+  }
+
   render() {
-    return (
-      <>
-        <Menu />
-        <hr />
-        <Body game={localGame1} />
-      </>
-    );
+    if (this.state && this.state.game) {
+      return (
+        <>
+          <Menu handleStart={this.handleStart} />
+          <hr />
+          <Body game={this.state.game} />
+        </>
+      );
+    } else {
+      return (
+        <>
+          <Menu handleStart={this.handleStart} />
+        </>
+      );
+    }
   }
 }

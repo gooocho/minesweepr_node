@@ -2,7 +2,7 @@ import React from "react";
 
 type PropsType = {
   size: number,
-  handleClick: (ev: React.MouseEvent<HTMLElement>) => void
+  open: (ev: React.MouseEvent<HTMLElement>) => void
 };
 
 export class ClosedCell extends React.Component<PropsType, {}> {
@@ -11,7 +11,7 @@ export class ClosedCell extends React.Component<PropsType, {}> {
     return (
       <button
         className={className}
-        onClick={this.props.handleClick} />
+        onClick={this.props.open} />
     );
   }
 }
