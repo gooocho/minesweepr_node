@@ -11,6 +11,7 @@ export class Runner extends React.Component<PropsType, StateType> {
   constructor(props: PropsType) {
     super(props);
     this.handleStart = this.handleStart.bind(this);
+    this.handleOpen = this.handleOpen.bind(this);
   }
 
   handleStart(width: number, height: number, mineCount: number) {
@@ -21,13 +22,32 @@ export class Runner extends React.Component<PropsType, StateType> {
     });
   }
 
+  handleOpen(x: number, y: number) {
+    this
+      .state
+      .game
+      .open(x, y)
+      .then(
+        (updatedGame: Game) => {
+          this.setState({
+            game: updatedGame
+          });
+        },
+        (rejected: any) => {
+          console.info('boom(click event)');
+        }
+      );
+  }
+
   render() {
     if (this.state && this.state.game) {
       return (
         <>
           <Menu handleStart={this.handleStart} />
           <hr />
-          <Body game={this.state.game} />
+          <Body
+            game={this.state.game}
+            handleOpen={this.handleOpen} />
         </>
       );
     } else {
