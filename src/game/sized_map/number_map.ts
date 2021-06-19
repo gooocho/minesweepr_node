@@ -1,6 +1,5 @@
 import { SizedMap } from "./sized_map";
 import { ParseError } from "../error/parse_error";
-import { ArgumentError } from "../error/argument_error";
 
 export class NumberMap implements SizedMap<number> {
   static EMPTY = -1;
@@ -75,6 +74,15 @@ export class NumberMap implements SizedMap<number> {
     return new NumberMap(this.width, this.height, dup);
   }
 
+  updateMultiple(list: { x: number; y: number; value: number }[]) {
+    const dup = [...this.dataBody];
+    list.forEach(({ x, y, value }) => {
+      dup[this.width * y + x] = value;
+    });
+
+    return new NumberMap(this.width, this.height, dup);
+  }
+
   print() {
     const strs = [];
     for (let y = 0; y < this.height; ++y) {
@@ -91,5 +99,13 @@ export class NumberMap implements SizedMap<number> {
     }
 
     return strs.join("\n");
+  }
+
+  *[Symbol.iterator]() {
+    for (let y = 0; y < this.height; ++y) {
+      for (let x = 0; x < this.width; ++x) {
+        yield { x, y, value: this.dataBody[this.width * y + x] };
+      }
+    }
   }
 }

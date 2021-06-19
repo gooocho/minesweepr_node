@@ -10,16 +10,16 @@ export class BigintMap implements SizedBooleanMap {
    * [example]
    * width: 3
    * height: 4
-   * mineMap: 0011_0100_1101
-   *               |||| ||||
-   *               |||| ||| `-- [0, 0]
-   *               |||| || `--- [0, 1]
-   *               |||| | `---- [0, 2]
-   *               ||||  `----- [0, 3]
-   *               ||| `------- [1, 0]
-   *               || `-------- [1, 1]
-   *               | `--------- [1, 2]
-   *                `---------- [1, 3]
+   * dataBody: 0011_0100_1101
+   *                |||| ||||
+   *                |||| ||| `-- [0, 0]
+   *                |||| || `--- [0, 1]
+   *                |||| | `---- [0, 2]
+   *                ||||  `----- [0, 3]
+   *                ||| `------- [1, 0]
+   *                || `-------- [1, 1]
+   *                | `--------- [1, 2]
+   *                 `---------- [1, 3]
    * will represent
    * +----+
    * |1011|
@@ -61,10 +61,31 @@ export class BigintMap implements SizedBooleanMap {
   update(x: number, y: number, value: boolean) {
     const indexN = BigInt(this.width * y + x);
     if (value) {
-      return new BigintMap(this.width, this.height, this.dataBody | (1n << indexN));
+      return new BigintMap(
+        this.width,
+        this.height,
+        this.dataBody | (1n << indexN)
+      );
     } else {
-      return new BigintMap(this.width, this.height, this.dataBody ^ (this.dataBody & (1n << indexN)));
+      return new BigintMap(
+        this.width,
+        this.height,
+        this.dataBody ^ (this.dataBody & (1n << indexN))
+      );
     }
+  }
+
+  updateMultiple(list: { x: number; y: number; value: boolean }[]) {
+    let bigint = this.dataBody;
+    list.forEach(({ x, y, value }) => {
+      const indexN = BigInt(this.width * y + x);
+      if (value) {
+        bigint |= 1n << indexN;
+      } else {
+        bigint ^= bigint & (1n << indexN);
+      }
+    });
+    return new BigintMap(this.width, this.height, bigint);
   }
 
   adjacentCount(x: number, y: number): number {
@@ -123,5 +144,17 @@ export class BigintMap implements SizedBooleanMap {
       .split("")
       .reverse()
       .join("");
+  }
+
+  *[Symbol.iterator]() {
+    for (let y = 0; y < this.height; ++y) {
+      for (let x = 0; x < this.width; ++x) {
+        yield {
+          x,
+          y,
+          value: Boolean((this.dataBody >> BigInt(this.width * y + x)) & 1n),
+        };
+      }
+    }
   }
 }

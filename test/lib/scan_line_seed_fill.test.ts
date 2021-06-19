@@ -16,7 +16,6 @@ describe("scanLineSeedFill", () => {
       ...[0, 1, 0, 1, 1, 1, 0, 1],
       ...[0, 1, 0, 0, 1, 0, 0, 0],
     ]);
-    console.info(scanLineSeedFill(numberMap, 0, 0, 0));
     expect(scanLineSeedFill(numberMap, 0, 0, 0).toBinaryStr()).toEqual(
       dedent`
       11111111

@@ -56,6 +56,16 @@ export class GameState {
     );
   }
 
+  updateMultiple(list: { x: number; y: number; value: number }[]) {
+    return new GameState(
+      this.width,
+      this.height,
+      this.mineCount,
+      this.numberMap.updateMultiple(list),
+      this.flagMap
+    );
+  }
+
   toggleFlag(x: number, y: number) {
     return new GameState(
       this.width,

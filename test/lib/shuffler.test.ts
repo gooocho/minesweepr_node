@@ -9,7 +9,9 @@ describe("Shuffler", () => {
 
     test("with shuffle", () => {
       const arr = [0, 1, 2, 3, 4, 5];
-      expect(Shuffler.shuffle(arr, [198, 141, 84, 27])).toEqual([2, 4, 5, 1, 3, 0]);
+      expect(Shuffler.shuffle(arr, [198, 141, 84, 27])).toEqual([
+        2, 4, 5, 1, 3, 0,
+      ]);
     });
   });
 });

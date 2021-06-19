@@ -1,2 +1,1 @@
-export class Boom extends Error {
-}
+export class Boom extends Error {}

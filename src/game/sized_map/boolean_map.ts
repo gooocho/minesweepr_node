@@ -31,11 +31,16 @@ export class BooleanMap implements SizedBooleanMap {
     const dup = [...this.dataBody];
     dup[this.width * y + x] = value;
 
-    return new BooleanMap(
-      this.width,
-      this.height,
-      dup
-    );
+    return new BooleanMap(this.width, this.height, dup);
+  }
+
+  updateMultiple(list: { x: number; y: number; value: boolean }[]) {
+    const dup = [...this.dataBody];
+    list.forEach(({ x, y, value }) => {
+      dup[this.width * y + x] = value;
+    });
+
+    return new BooleanMap(this.width, this.height, dup);
   }
 
   adjacentCount(x: number, y: number): number {
@@ -83,5 +88,13 @@ export class BooleanMap implements SizedBooleanMap {
       .map(Number)
       .join("")
       .padStart(this.width * this.height, "0");
+  }
+
+  *[Symbol.iterator]() {
+    for (let y = 0; y < this.height; ++y) {
+      for (let x = 0; x < this.width; ++x) {
+        yield { x, y, value: this.dataBody[this.width * y + x] };
+      }
+    }
   }
 }

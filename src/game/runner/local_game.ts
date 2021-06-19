@@ -3,6 +3,7 @@ import { GameState } from "./game_state";
 import { MineMap } from "../sized_map/mine_map";
 import { XorshiftSeed } from "../lib/xorshift_seed";
 import { Boom } from "../error/boom_error";
+import { scanLineSeedFill } from "../lib/scan_line_seed_fill";
 
 export class LocalGame implements Game {
   width: number;
@@ -44,17 +45,27 @@ export class LocalGame implements Game {
       return this;
     }
 
-    if (this.mineMap.isMine(x, y)) {
+    if (this.mineMap.isOn(x, y)) {
       this.boom();
       // FIXME: update to dead state
       throw new Boom();
     } else {
-      const adjacentMineCount = this.mineMap.adjacentCount(x, y);
+      const updateCells =
+        this.mineMap.adjacentCount(x, y) === 0
+          ? [...scanLineSeedFill(this.mineMap, x, y, false)]
+              .filter(({ value }) => value)
+              .map(({ x, y }) => ({
+                x,
+                y,
+                value: this.mineMap.adjacentCount(x, y),
+              }))
+          : [{ x, y, value: this.mineMap.adjacentCount(x, y) }];
 
       const updatedGame = new LocalGame(
-        this.gameState.update(x, y, adjacentMineCount),
+        this.gameState.updateMultiple(updateCells),
         this.mineMap
       );
+
       if (updatedGame.isWin()) {
         updatedGame.win();
       }
@@ -87,9 +98,5 @@ export class LocalGame implements Game {
     // tada-
     // win this game!
     console.info("win");
-  }
-
-  print() {
-    return [this.mineMap.print(), "----", this.gameState.print()].join("\n");
   }
 }
