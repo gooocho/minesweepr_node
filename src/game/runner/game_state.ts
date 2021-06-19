@@ -71,22 +71,21 @@ export class GameState {
   }
 
   print() {
-    const strs = [];
-    for (let y = 0; y < this.height; ++y) {
-      let str = "";
-      for (let x = 0; x < this.width; ++x) {
-        const index = y * this.width + x;
-        if (this.flagMap.isOn(x, y)) {
-          str += "|";
-        } else {
-          str +=
-            this.numberMap.dataBody[index] === NumberMap.EMPTY
-              ? "_"
-              : this.numberMap.dataBody[index];
-        }
-      }
-      strs.push(str);
-    }
-    return strs.join("\n");
+    return [...new Array(this.height)]
+      .map((_, y) =>
+        [...new Array(this.height)]
+          .map((_, x) => {
+            const index = y * this.width + x;
+            if (this.flagMap.isOn(x, y)) {
+              return "|";
+            } else {
+              return this.numberMap.dataBody[index] === NumberMap.EMPTY
+                ? "_"
+                : this.numberMap.dataBody[index];
+            }
+          })
+          .join("")
+      )
+      .join("\n");
   }
 }

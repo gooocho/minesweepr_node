@@ -3,13 +3,6 @@ import { CellList } from "./cell/cell_list";
 import { Cell } from "./cell/cell";
 
 export class Body extends React.Component<any, any> {
-  constructor(props: any) {
-    super(props);
-    this.state = {
-      value: props.localGame
-    };
-  }
-
   render() {
     const game = this.props.game;
 
@@ -21,9 +14,7 @@ export class Body extends React.Component<any, any> {
             key={`${x}-${y}`}
             x={x}
             y={y}
-            opened={game.isOpen(x, y)}
-            number={game.number(x, y)}
-            open={async (x: number, y: number) => await game.open(x, y)} />
+            game={game} />
         )} />
     );
 

@@ -1,7 +1,8 @@
-import { Game as Game } from "./game";
+import { Game } from "./game";
 import { GameState } from "./game_state";
 import { MineMap } from "../sized_map/mine_map";
 import { XorshiftSeed } from "../lib/xorshift_seed";
+import { Boom } from "../error/boom_error";
 
 export class LocalGame implements Game {
   width: number;
@@ -46,10 +47,9 @@ export class LocalGame implements Game {
     if (this.mineMap.isMine(x, y)) {
       this.boom();
       // FIXME: update to dead state
-      return this;
+      throw new Boom();
     } else {
       const adjacentMineCount = this.mineMap.adjacentCount(x, y);
-      this.gameState = this.gameState.update(x, y, adjacentMineCount);
 
       if (this.isWin()) {
         this.win();
@@ -70,13 +70,12 @@ export class LocalGame implements Game {
   }
 
   toggleFlag(x: number, y: number) {
-    // FIXME: update flagMap
-    this.gameState.toggleFlag(x, y);
+    return new LocalGame(this.gameState.toggleFlag(x, y), this.mineMap);
   }
 
   boom() {
     // game over
-    console.info("boom");
+    console.info("boom(game)");
   }
 
   isWin() {

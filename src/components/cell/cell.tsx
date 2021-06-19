@@ -5,40 +5,38 @@ import { OpenedCell } from "./opened_cell";
 import { NumberMap } from "../../game/sized_map/number_map";
 
 export class Cell extends React.Component<any, any> {
-  x: number;
-  y: number;
-  open: (x: number, y: number) => Promise<Game>;
-
   constructor(props: any) {
     super(props);
-    this.open = props.open;
-    this.x = props.x;
-    this.y = props.y;
 
     this.state = {
       opened: false,
       number: NumberMap.EMPTY
     };
+    this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick(x: number, y: number) {
-    console.info('handleClick', x, y);
+  handleClick(ev: React.MouseEvent<HTMLElement>) {
     this
+      .props
+      .game
       .open(this.props.x, this.props.y)
       .then(
-        (fulfilled) => {
-          console.info('fulfilled', fulfilled);
-          this.setState({opened: true, number: 1});
+        (fulfilled: any) => {
+          this.setState({
+            opened: true,
+            number: fulfilled.gameState.number(this.props.x, this.props.y)
+          });
         },
-        (rejected) => {
-          console.info('rejected', rejected);
+        (rejected: any) => {
+          console.info('boom(click event)');
         }
       );
   }
 
   render() {
-    const x = this.x;
-    const y = this.y;
+    console.info(`render called: Cell`);
+    const x = this.props.x;
+    const y = this.props.y;
 
     return (
       this.state.opened ?
@@ -53,7 +51,7 @@ export class Cell extends React.Component<any, any> {
           key={`${x}-${y}`}
           x={x}
           y={y}
-          handleClick={(x: number, y: number) => this.handleClick(x, y)} />
+          handleClick={this.handleClick} />
     );
   }
 }
