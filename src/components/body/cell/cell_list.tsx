@@ -3,10 +3,8 @@ import { Cell } from "./cell";
 
 type CellElements = React.ReactElement<Cell>[];
 
-export class CellList extends React.Component<{cellList: CellElements}, {}> {
+export class CellList extends React.Component<{ cellList: CellElements }, {}> {
   render() {
-    return (
-      <div className="row">{this.props.cellList}</div>
-    );
+    return <div className="row">{this.props.cellList}</div>;
   }
 }

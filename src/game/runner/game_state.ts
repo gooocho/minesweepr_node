@@ -46,12 +46,12 @@ export class GameState {
     return this.numberMap.number(x, y);
   }
 
-  update(x: number, y: number, adjacentMineCount: number) {
+  update(x: number, y: number, value: number) {
     return new GameState(
       this.width,
       this.height,
       this.mineCount,
-      this.numberMap.update(x, y, adjacentMineCount),
+      this.numberMap.update(x, y, value),
       this.flagMap
     );
   }

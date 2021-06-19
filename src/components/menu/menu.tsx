@@ -1,10 +1,14 @@
 import React from "react";
 import { MenuInput } from "./menu_input";
 
-type PropsType = {handleStart: (width: number, height: number, mineCount: number) => void};
-type StateType = {width : number, height: number, mineCount: number};
+type PropsType = {
+  handleStart: (width: number, height: number, mineCount: number) => void;
+};
+type StateType = { width: number; height: number; mineCount: number };
 
 export class Menu extends React.Component<PropsType, StateType> {
+  handleStart: (ev: React.MouseEvent<HTMLElement>) => void;
+
   static DEFAULT_WIDTH = 9;
   static DEFAULT_HEIGHT = 9;
   static DEFAULT_MINECOUNT = 10;
@@ -14,23 +18,29 @@ export class Menu extends React.Component<PropsType, StateType> {
     this.state = {
       width: Menu.DEFAULT_WIDTH,
       height: Menu.DEFAULT_HEIGHT,
-      mineCount: Menu.DEFAULT_MINECOUNT
+      mineCount: Menu.DEFAULT_MINECOUNT,
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handleStart = ((ev: React.MouseEvent<HTMLElement>) =>
+      this.props.handleStart(
+        this.state.width,
+        this.state.height,
+        this.state.mineCount
+      )).bind(this);
   }
 
   handleChange(state_name: string, value: number) {
-    switch(state_name) {
-      case 'width':
-      case 'height':
-      case 'mineCount':
+    switch (state_name) {
+      case "width":
+      case "height":
+      case "mineCount":
         this.setState({
           ...this.state,
-          [state_name]: value
+          [state_name]: value,
         });
         break;
       default:
-        // noop
+      // noop
     }
   }
 
@@ -43,26 +53,25 @@ export class Menu extends React.Component<PropsType, StateType> {
             <MenuInput
               name="width"
               defaultValue={Menu.DEFAULT_WIDTH}
-              handleChange={this.handleChange} />
+              handleChange={this.handleChange}
+            />
             *
             <MenuInput
               name="height"
               defaultValue={Menu.DEFAULT_HEIGHT}
-              handleChange={this.handleChange} />
+              handleChange={this.handleChange}
+            />
           </p>
           <p>
             mine:
             <MenuInput
               name="mine_count"
               defaultValue={Menu.DEFAULT_MINECOUNT}
-              handleChange={this.handleChange} />
+              handleChange={this.handleChange}
+            />
           </p>
         </div>
-        <button onClick={() => this.props.handleStart(
-          this.state.width,
-          this.state.height,
-          this.state.mineCount
-        )}>start</button>
+        <button onClick={this.handleStart}>start</button>
       </div>
     );
   }
