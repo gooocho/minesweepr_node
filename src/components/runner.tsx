@@ -5,7 +5,7 @@ import { LocalGame } from "../game/runner/local_game";
 
 const localGame1 = LocalGame.newGame(9, 9, 10, [0, 0, 0, 0]);
 
-export class Runner extends React.Component<any, any> {
+export class Runner extends React.Component<{}, {}> {
   render() {
     return (
       <>

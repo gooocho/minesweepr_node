@@ -1,15 +1,11 @@
-import { GameState } from "./game_state";
-import { NotImprementedError } from "../error/not_impremented_error";
-import { XorshiftSeed } from "../lib/xorshift_seed";
-
 export interface Game {
+  width: number;
+  height: number;
+  mineCount: number;
+
   open(x: number, y: number): Promise<Game>;
 
   isOpen(x: number, y: number): boolean;
 
   number(x: number, y: number): number;
-
-  // boom() {}
-
-  // solved() {}
 }

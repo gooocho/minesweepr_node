@@ -4,8 +4,11 @@ import { ClosedCell } from "./closed_cell";
 import { OpenedCell } from "./opened_cell";
 import { NumberMap } from "../../game/sized_map/number_map";
 
-export class Cell extends React.Component<any, any> {
-  constructor(props: any) {
+type PropsType = {game: Game, x: number, y: number};
+type StateType = {opened: boolean, number: number};
+
+export class Cell extends React.Component<PropsType, StateType> {
+  constructor(props: {game: Game, x: number, y: number}) {
     super(props);
 
     this.state = {
@@ -41,16 +44,12 @@ export class Cell extends React.Component<any, any> {
     return (
       this.state.opened ?
         <OpenedCell
-          size="32"
+          size={32}
           key={`${x}-${y}`}
-          x={x}
-          y={y}
           number={this.state.number} /> :
         <ClosedCell
-          size="32"
+          size={32}
           key={`${x}-${y}`}
-          x={x}
-          y={y}
           handleClick={this.handleClick} />
     );
   }

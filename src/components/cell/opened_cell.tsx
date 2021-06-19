@@ -1,11 +1,11 @@
 import React from "react";
 
-export class OpenedCell extends React.Component<any, any> {
-  constructor(props: any) {
-    super(props);
-    this.state = {value: props.number};
-  }
+type PropsType = {
+  size: number,
+  number: number
+};
 
+export class OpenedCell extends React.Component<PropsType, {}> {
   render() {
     const className = `opened${this.props.size}`;
     return (

@@ -1,8 +1,9 @@
 import React from "react";
 import { CellList } from "./cell/cell_list";
 import { Cell } from "./cell/cell";
+import { Game } from "../game/runner/game";
 
-export class Body extends React.Component<any, any> {
+export class Body extends React.Component<{game: Game}, {}> {
   render() {
     const game = this.props.game;
 
@@ -24,9 +25,6 @@ export class Body extends React.Component<any, any> {
         <div>
           { matrix }
         </div>
-        <pre>
-          { game.mineMap.print() }
-        </pre>
       </div>
     );
   }

@@ -1,6 +1,11 @@
 import React from "react";
 
-export class ClosedCell extends React.Component<any, any> {
+type PropsType = {
+  size: number,
+  handleClick: (ev: React.MouseEvent<HTMLElement>) => void
+};
+
+export class ClosedCell extends React.Component<PropsType, {}> {
   render() {
     const className = `closed${this.props.size}`;
     return (
