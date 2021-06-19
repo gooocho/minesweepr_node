@@ -1,11 +1,10 @@
 import { BooleanMap } from "../../src/game/sized_map/boolean_map";
-import dedent from "ts-dedent";
 
-describe("BigintMap", () => {
+describe("BooleanMap", () => {
   test("isOn", () => {
     const width = 6;
     const height = 5;
-    const booleanMap1 = new BooleanMap(6, 5, [
+    const booleanMap1 = new BooleanMap(width, height, [
       ...[...new Array(15)].fill(true),
       ...[...new Array(15)].fill(false),
     ]);
@@ -21,6 +20,50 @@ describe("BigintMap", () => {
       const y = (index - x) / width;
       expect(booleanMap1.isOn(x, y)).toBe(false);
     }
+  });
+
+  test("update", () => {
+    const trueBooleanMap = new BooleanMap(4, 3, [...new Array(12)].fill(true));
+    const falseBooleanMap = new BooleanMap(
+      4,
+      3,
+      [...new Array(12)].fill(false)
+    );
+
+    expect(falseBooleanMap.update(1, 2, true).dataBody).toEqual([
+      ...[...new Array(9)].fill(false),
+      true,
+      ...[...new Array(2)].fill(false),
+    ]);
+
+    expect(falseBooleanMap.update(2, 1, true).dataBody).toEqual([
+      ...[...new Array(6)].fill(false),
+      true,
+      ...[...new Array(5)].fill(false),
+    ]);
+
+    expect(trueBooleanMap.update(2, 1, true).dataBody).toEqual(
+      trueBooleanMap.dataBody
+    );
+    expect(trueBooleanMap.update(1, 2, false).dataBody).toEqual([
+      ...[...new Array(9)].fill(true),
+      false,
+      ...[...new Array(2)].fill(true),
+    ]);
+
+    expect(trueBooleanMap.update(2, 1, false).dataBody).toEqual([
+      ...[...new Array(6)].fill(true),
+      false,
+      ...[...new Array(5)].fill(true),
+    ]);
+
+    expect(falseBooleanMap.update(2, 1, false).dataBody).toEqual(
+      falseBooleanMap.dataBody
+    );
+
+    expect(trueBooleanMap.update(2, 1, true).dataBody).not.toBe(
+      trueBooleanMap.dataBody
+    );
   });
 
   test("adjacentCount", () => {
@@ -68,5 +111,15 @@ describe("BigintMap", () => {
     expect(booleanMap1.adjacentCount(3, 4)).toBe(0);
     expect(booleanMap1.adjacentCount(4, 4)).toBe(0);
     expect(booleanMap1.adjacentCount(5, 4)).toBe(0);
+  });
+
+  test("toBinaryStr", () => {
+    expect(
+      new BooleanMap(4, 3, [
+        ...[false, false, false, true],
+        ...[false, false, true, true],
+        ...[false, true, true, true],
+      ]).toBinaryStr()
+    ).toBe("000100110111");
   });
 });

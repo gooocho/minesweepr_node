@@ -1,6 +1,4 @@
 import { SizedBooleanMap } from "./sized_boolean_map";
-import { XorshiftSeed } from "../lib/xorshift_seed";
-import { Shuffler } from "../lib/shuffler";
 
 export class BooleanMap implements SizedBooleanMap {
   width: number;
@@ -21,29 +19,23 @@ export class BooleanMap implements SizedBooleanMap {
     );
   }
 
-  // FIXME: move to mine_map
-  static newRandomMap(
-    width: number,
-    height: number,
-    count: number,
-    seed: XorshiftSeed
-  ) {
-    return new BooleanMap(
-      width,
-      height,
-      Shuffler.shuffle(
-        [...new Array(width * height)].fill(0).fill(1, 0, count),
-        seed
-      )
-    );
-  }
-
   is(x: number, y: number, value: boolean) {
     return Boolean(this.dataBody[y * this.width + x]) === value;
   }
 
   isOn(x: number, y: number): boolean {
     return Boolean(this.dataBody[y * this.width + x]);
+  }
+
+  update(x: number, y: number, value: boolean) {
+    const dup = [...this.dataBody];
+    dup[this.width * y + x] = value;
+
+    return new BooleanMap(
+      this.width,
+      this.height,
+      dup
+    );
   }
 
   adjacentCount(x: number, y: number): number {
@@ -77,7 +69,7 @@ export class BooleanMap implements SizedBooleanMap {
 
   toggle(x: number, y: number) {
     const dup = [...this.dataBody];
-    dup[this.width * y + x] = dup[this.width * y + x] === false ? true : false;
+    dup[this.width * y + x] = !dup[this.width * y + x];
 
     return new BooleanMap(this.width, this.height, dup);
   }

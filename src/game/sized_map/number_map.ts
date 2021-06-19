@@ -11,31 +11,25 @@ export class NumberMap implements SizedMap<number> {
   dataBody: number[];
   dataCount: number;
 
-  constructor(
-    width: number,
-    height: number,
-    dataBody: number[],
-    dataCount: number
-  ) {
+  constructor(width: number, height: number, dataBody: number[]) {
     this.width = width;
     this.height = height;
     this.dataBody = dataBody;
-    this.dataCount = dataCount;
+    this.dataCount = dataBody.filter(
+      (number) => number !== NumberMap.EMPTY
+    ).length;
   }
 
   static newFilledMap(width: number, height: number, fillValue: number) {
-    const dataCount = fillValue === NumberMap.EMPTY ? 0 : width * height;
     return new NumberMap(
       width,
       height,
-      [...new Array(width * height)].fill(fillValue),
-      dataCount
+      [...new Array(width * height)].fill(fillValue)
     );
   }
 
   static parse(numberStr: string) {
     const dataBody = [];
-    let dataCount = 0;
     // TODO: validation
     const lines = numberStr.split("\n");
     const width = lines[0].length;
@@ -57,14 +51,13 @@ export class NumberMap implements SizedMap<number> {
         case "7":
         case "8":
           dataBody.push(Number(ch));
-          ++dataCount;
           break;
         default:
           throw new ParseError(`parse failed: ${ch}`);
       }
     }
 
-    return new NumberMap(width, height, dataBody, dataCount);
+    return new NumberMap(width, height, dataBody);
   }
 
   is(x: number, y: number, value: number) {
@@ -77,26 +70,9 @@ export class NumberMap implements SizedMap<number> {
 
   update(x: number, y: number, number: number) {
     const dup = [...this.dataBody];
+    dup[this.width * y + x] = number;
 
-    const index = this.width * y + x;
-
-    let dataCount = this.dataCount;
-    if (dup[index] === NumberMap.EMPTY && number !== NumberMap.EMPTY) {
-      ++dataCount;
-    } else if (dup[index] !== NumberMap.EMPTY && number === NumberMap.EMPTY) {
-      --dataCount;
-    } else if (
-      (dup[index] === NumberMap.EMPTY && number === NumberMap.EMPTY) ||
-      (dup[index] !== NumberMap.EMPTY && number !== NumberMap.EMPTY)
-    ) {
-      // noop
-    } else {
-      throw new ArgumentError();
-    }
-
-    dup[index] = number;
-
-    return new NumberMap(this.width, this.height, dup, dataCount);
+    return new NumberMap(this.width, this.height, dup);
   }
 
   print() {

@@ -1,9 +1,6 @@
 import { SizedBooleanMap } from "./sized_boolean_map";
 
 export class BigintMap implements SizedBooleanMap {
-  static OFF = 0n;
-  static ON = 1n;
-
   width: number;
   height: number;
   widthN: bigint;
@@ -40,14 +37,11 @@ export class BigintMap implements SizedBooleanMap {
     this.dataBody = dataBody;
   }
 
-  /**
-   * fillValue: BigintMap.ON or BigintMap.OFF
-   */
-  static newFilledMap(width: number, height: number, fillValue: bigint) {
+  static newFilledMap(width: number, height: number, fillValue: boolean) {
     return new BigintMap(
       width,
       height,
-      fillValue === BigintMap.OFF ? 0n : (1n << BigInt(width * height)) - 1n
+      fillValue === false ? 0n : (1n << BigInt(width * height)) - 1n
     );
   }
 
@@ -62,6 +56,15 @@ export class BigintMap implements SizedBooleanMap {
     const xN = BigInt(x);
     const yN = BigInt(y);
     return Boolean(this.dataBody & (1n << (this.widthN * yN + xN)));
+  }
+
+  update(x: number, y: number, value: boolean) {
+    const indexN = BigInt(this.width * y + x);
+    if (value) {
+      return new BigintMap(this.width, this.height, this.dataBody | (1n << indexN));
+    } else {
+      return new BigintMap(this.width, this.height, this.dataBody ^ (this.dataBody & (1n << indexN)));
+    }
   }
 
   adjacentCount(x: number, y: number): number {

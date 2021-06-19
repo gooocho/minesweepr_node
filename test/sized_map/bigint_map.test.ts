@@ -24,6 +24,25 @@ describe("BigintMap", () => {
     }
   });
 
+  test("update", () => {
+    expect(
+      new BigintMap(4, 3, 0b000000000000n).update(1, 2, true).dataBody
+    ).toBe(0b001000000000n);
+    expect(
+      new BigintMap(4, 3, 0b000000000000n).update(2, 1, true).dataBody
+    ).toBe(0b000001000000n);
+    expect(
+      new BigintMap(4, 3, 0b000001000000n).update(2, 1, true).dataBody
+    ).toBe(0b000001000000n);
+
+    expect(
+      new BigintMap(4, 3, 0b000011100000n).update(2, 1, false).dataBody
+    ).toBe(0b000010100000n);
+    expect(
+      new BigintMap(4, 3, 0b000011100000n).update(0, 0, false).dataBody
+    ).toBe(0b000011100000n);
+  });
+
   test("adjacentCount", () => {
     // 111111
     // 111111
@@ -66,5 +85,11 @@ describe("BigintMap", () => {
     expect(bigintMap1.adjacentCount(3, 4)).toBe(0);
     expect(bigintMap1.adjacentCount(4, 4)).toBe(0);
     expect(bigintMap1.adjacentCount(5, 4)).toBe(0);
+  });
+
+  test("toBinaryStr", () => {
+    expect(new BigintMap(4, 3, 0b111011001000n).toBinaryStr()).toBe(
+      "000100110111"
+    );
   });
 });
