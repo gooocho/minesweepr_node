@@ -67,7 +67,9 @@ export class GameState {
   }
 
   isWin() {
-    return this.numberMap.dataCount === this.mineCount;
+    return (
+      this.numberMap.dataCount + this.mineCount === this.width * this.height
+    );
   }
 
   print() {
