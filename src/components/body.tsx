@@ -10,28 +10,22 @@ export class Body extends React.Component<any, any> {
     };
   }
 
-  onChange() {
-    console.info('onChange');
-  }
-
   render() {
     const game = this.props.game;
 
-    const matrix = [...new Array(game.height)].map((_, y) => {
-      return (
-        <CellList
-          key={y}
-          cellList={[...new Array(game.width)].map((_, x) =>
-            <Cell
-              key={`${x}-${y}`}
-              x={x}
-              y={y}
-              opened={game.isOpen(x, y)}
-              number={game.number(x, y)}
-              open={async (x: number, y: number) => await game.open(x, y)} />
-          )} />
-      );
-    })
+    const matrix = [...new Array(game.height)].map((_, y) =>
+      <CellList
+        key={y}
+        cellList={[...new Array(game.width)].map((_, x) =>
+          <Cell
+            key={`${x}-${y}`}
+            x={x}
+            y={y}
+            opened={game.isOpen(x, y)}
+            number={game.number(x, y)}
+            open={async (x: number, y: number) => await game.open(x, y)} />
+        )} />
+    );
 
     return (
       <div>

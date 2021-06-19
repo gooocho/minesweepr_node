@@ -28,6 +28,7 @@ export class Cell extends React.Component<any, any> {
       .then(
         (fulfilled) => {
           console.info('fulfilled', fulfilled);
+          this.setState({opened: true, number: 1});
         },
         (rejected) => {
           console.info('rejected', rejected);
