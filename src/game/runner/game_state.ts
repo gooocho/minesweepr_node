@@ -4,6 +4,8 @@ import { BooleanMap } from "../sized_map/boolean_map";
 import { SizedBooleanMap } from "../sized_map/sized_boolean_map";
 
 export class GameState {
+  static EMPTY_CELL = NumberMap.EMPTY;
+
   rule: Rule;
   numberMap: NumberMap;
   flagMap: SizedBooleanMap;
@@ -17,7 +19,7 @@ export class GameState {
   static newGame(rule: Rule) {
     return new GameState(
       rule,
-      NumberMap.newFilledMap(rule.width, rule.height, NumberMap.EMPTY),
+      NumberMap.newFilledMap(rule.width, rule.height, GameState.EMPTY_CELL),
       // FIXME: BooleanMap or BigintMap?
       BooleanMap.newFilledMap(rule.width, rule.height, false)
     );
@@ -28,7 +30,7 @@ export class GameState {
   }
 
   isOpen(x: number, y: number) {
-    return this.numberMap.number(x, y) !== NumberMap.EMPTY;
+    return this.numberMap.number(x, y) !== GameState.EMPTY_CELL;
   }
 
   number(x: number, y: number) {
@@ -71,7 +73,7 @@ export class GameState {
             if (this.flagMap.isOn(x, y)) {
               return "|";
             } else {
-              return this.numberMap.dataBody[index] === NumberMap.EMPTY
+              return this.numberMap.dataBody[index] === GameState.EMPTY_CELL
                 ? "_"
                 : this.numberMap.dataBody[index];
             }

@@ -70,6 +70,10 @@ export class LocalGame implements Game {
     return this.gameState.number(x, y);
   }
 
+  numbers() {
+    return [...this.gameState.numberMap].map((el) => el.value);
+  }
+
   toggleFlag(x: number, y: number) {
     return new LocalGame(this.gameState.toggleFlag(x, y), this.mineMap);
   }

@@ -16,7 +16,7 @@ const Runner: React.FC<{}> = () => {
     <>
       <Menu handleStart={handleStart} />
       <hr />
-      <Body rule={rule} />
+      <Body rule={rule} seed={[0, 0, 0, 0]} />
     </>
   );
 };
