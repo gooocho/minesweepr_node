@@ -1,6 +1,7 @@
+import { Rule } from "../types";
 import { BigintMap } from "./bigint_map";
 import { randomBits } from "../lib/radom_bits";
-import { XorshiftSeed } from "../lib/xorshift_seed";
+import { XorshiftSeed } from "../types";
 
 export class MineMap extends BigintMap {
   adjacentCountMap: number[];
@@ -16,17 +17,16 @@ export class MineMap extends BigintMap {
     }
   }
 
-  static newGame(
-    width: number,
-    height: number,
-    mineCount: number,
-    seed: XorshiftSeed
-  ) {
+  static newGame(rule: Rule, seed: XorshiftSeed) {
     return new MineMap(
-      width,
-      height,
+      rule.width,
+      rule.height,
       // TODO: BigintMap or BooleanMap?
-      new BigintMap(width, height, randomBits(width * height, mineCount, seed))
+      new BigintMap(
+        rule.width,
+        rule.height,
+        randomBits(rule.width * rule.height, rule.mineCount, seed)
+      )
     );
   }
 

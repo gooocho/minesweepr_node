@@ -1,13 +1,10 @@
 import React from "react";
 
-type PropsType = {
+const OpenedCell: React.FC<{
   size: number;
   number: number;
+}> = ({ size, number }) => {
+  return <div className={`opened${size}`}>{number}</div>;
 };
 
-export class OpenedCell extends React.Component<PropsType, {}> {
-  render() {
-    const className = `opened${this.props.size}`;
-    return <div className={className}>{this.props.number}</div>;
-  }
-}
+export { OpenedCell };

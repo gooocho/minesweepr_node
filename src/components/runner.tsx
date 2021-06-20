@@ -1,48 +1,24 @@
 import React from "react";
+const { useState } = React;
 import { Menu } from "./menu/menu";
 import { Body } from "./body/body";
-import { XorshiftSeed } from "../game/lib/xorshift_seed";
+import { XorshiftSeed, Rule } from "../game/types";
+import { BEGINNER } from "../game/config/rules";
 
-type PropsType = {};
-type StateType = {
-  width: number;
-  height: number;
-  mineCount: number;
-  seed: XorshiftSeed;
+const Runner: React.FC<{}> = () => {
+  const [rule, setRule] = useState(BEGINNER);
+
+  const handleStart = function handleStart(rule: Rule) {
+    setRule(rule);
+  };
+
+  return (
+    <>
+      <Menu handleStart={handleStart} />
+      <hr />
+      <Body rule={rule} />
+    </>
+  );
 };
 
-export class Runner extends React.Component<PropsType, StateType> {
-  constructor(props: PropsType) {
-    super(props);
-    this.handleStart = this.handleStart.bind(this);
-  }
-
-  handleStart(width: number, height: number, mineCount: number) {
-    this.setState({
-      width,
-      height,
-      mineCount,
-      // FIXME: random seed
-      seed: [0, 0, 0, 0],
-    });
-  }
-
-  render() {
-    if (this.state) {
-      return (
-        <>
-          <Menu handleStart={this.handleStart} />
-          <hr />
-          <Body
-            width={this.state.width}
-            height={this.state.height}
-            mineCount={this.state.mineCount}
-            seed={this.state.seed}
-          />
-        </>
-      );
-    } else {
-      return <Menu handleStart={this.handleStart} />;
-    }
-  }
-}
+export { Runner };

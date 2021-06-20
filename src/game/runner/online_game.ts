@@ -1,30 +1,22 @@
+import { Rule } from "../types";
 import { Game } from "./game";
 import { GameState } from "./game_state";
-import { XorshiftSeed } from "../lib/xorshift_seed";
+import { XorshiftSeed } from "../types";
 
 export class OnlineRunner implements Game {
-  width: number;
-  height: number;
-  mineCount: number;
+  rule: Rule;
   gameState: GameState;
   seed: XorshiftSeed;
 
   constructor(gameState: GameState, seed: XorshiftSeed) {
-    this.width = gameState.width;
-    this.height = gameState.height;
-    this.mineCount = gameState.mineCount;
+    this.rule = gameState.rule;
     this.gameState = gameState;
     this.seed = seed;
   }
 
-  static newGame(
-    width: number,
-    height: number,
-    mineCount: number,
-    seed: XorshiftSeed
-  ) {
+  static newGame(rule: Rule, seed: XorshiftSeed) {
     // TODO: sync with server
-    return new OnlineRunner(GameState.newGame(width, height, mineCount), seed);
+    return new OnlineRunner(GameState.newGame(rule), seed);
   }
 
   async open(x: number, y: number) {

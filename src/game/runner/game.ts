@@ -1,7 +1,7 @@
+import { Rule } from "../types";
+
 export interface Game {
-  width: number;
-  height: number;
-  mineCount: number;
+  rule: Rule;
 
   open(x: number, y: number): Promise<Game>;
 

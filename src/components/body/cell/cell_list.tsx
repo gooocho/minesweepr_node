@@ -1,10 +1,9 @@
 import React from "react";
-import { Cell } from "./cell";
 
-type CellElements = React.ReactElement<Cell>[];
+const CellList: React.FC<{
+  children: React.ReactNode;
+}> = ({ children }) => {
+  return <div className="row">{children}</div>;
+};
 
-export class CellList extends React.Component<{ cellList: CellElements }, {}> {
-  render() {
-    return <div className="row">{this.props.cellList}</div>;
-  }
-}
+export { CellList };

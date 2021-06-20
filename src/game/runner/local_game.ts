@@ -1,35 +1,24 @@
+import { Rule } from "../types";
 import { Game } from "./game";
 import { GameState } from "./game_state";
 import { MineMap } from "../sized_map/mine_map";
-import { XorshiftSeed } from "../lib/xorshift_seed";
+import { XorshiftSeed } from "../types";
 import { Boom } from "../error/boom_error";
 import { scanLineSeedFill } from "../lib/scan_line_seed_fill";
 
 export class LocalGame implements Game {
-  width: number;
-  height: number;
-  mineCount: number;
+  rule: Rule;
   gameState: GameState;
   mineMap: MineMap;
 
   constructor(gameState: GameState, mineMap: MineMap) {
-    this.width = gameState.width;
-    this.height = gameState.height;
-    this.mineCount = gameState.mineCount;
+    this.rule = gameState.rule;
     this.gameState = gameState;
     this.mineMap = mineMap;
   }
 
-  static newGame(
-    width: number,
-    height: number,
-    mineCount: number,
-    seed: XorshiftSeed
-  ) {
-    return new LocalGame(
-      GameState.newGame(width, height, mineCount),
-      MineMap.newGame(width, height, mineCount, seed)
-    );
+  static newGame(rule: Rule, seed: XorshiftSeed) {
+    return new LocalGame(GameState.newGame(rule), MineMap.newGame(rule, seed));
   }
 
   async chording(x: number, y: number) {

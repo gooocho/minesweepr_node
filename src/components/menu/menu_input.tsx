@@ -1,30 +1,20 @@
 import React from "react";
 
-type PropsType = {
+const MenuInput: React.FC<{
   name: string;
-  defaultValue: number;
-  handleChange: (name: string, value: number) => void;
+  defaultValue: string;
+  handleChange: (name: string, value: string) => void;
+}> = ({ name, defaultValue, handleChange }) => {
+  return (
+    <input
+      name={name}
+      type="number"
+      defaultValue={defaultValue}
+      onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
+        handleChange(name, ev.target.value);
+      }}
+    />
+  );
 };
-type StateType = {};
 
-export class MenuInput extends React.Component<PropsType, StateType> {
-  handleChange: (ev: React.ChangeEvent<HTMLInputElement>) => void;
-
-  constructor(props: PropsType) {
-    super(props);
-    this.handleChange = ((ev: React.ChangeEvent<HTMLInputElement>) => {
-      this.props.handleChange(this.props.name, Number(ev.target.value));
-    }).bind(this);
-  }
-
-  render() {
-    return (
-      <input
-        name={this.props.name}
-        type="number"
-        defaultValue={this.props.defaultValue}
-        onChange={this.handleChange}
-      />
-    );
-  }
-}
+export { MenuInput };

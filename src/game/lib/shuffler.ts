@@ -1,5 +1,5 @@
-const { XorShift128Plus } = require('xorshift.js');
-import { XorshiftSeed } from "./xorshift_seed";
+const { XorShift128Plus } = require("xorshift.js");
+import { XorshiftSeed } from "../types";
 
 export class Shuffler {
   seed: XorshiftSeed;
@@ -15,24 +15,24 @@ export class Shuffler {
     const prng = new XorShift128Plus(seed);
     const dup = [...array];
     const size = dup.length;
-  
+
     for (let i = 0; i < dup.length; ++i) {
       const exchangeOffset = Math.floor(prng.random() * (size - i));
       [dup[i], dup[i + exchangeOffset]] = [dup[i + exchangeOffset], dup[i]];
     }
-  
+
     return dup;
   }
 
   shuffle<T>(array: Array<T>): Array<T> {
     const dup = [...array];
     const size = dup.length;
-  
+
     for (let i = 0; i < dup.length; ++i) {
       const exchangeOffset = Math.floor(this.prng.random() * (size - i));
       [dup[i], dup[i + exchangeOffset]] = [dup[i + exchangeOffset], dup[i]];
     }
-  
+
     return dup;
   }
 }

@@ -2,8 +2,8 @@
 
 // import { XorShift } from "xorshift.js";
 // TODO: make d.ts
-const { XorShift128Plus } = require('xorshift.js');
-import { XorshiftSeed } from "./xorshift_seed";
+const { XorShift128Plus } = require("xorshift.js");
+import { XorshiftSeed } from "../types";
 
 // if seed is 0, random() always return 0.
 // const prng0 = new XorShift128Plus([0, 0, 0, 0]);
@@ -33,7 +33,8 @@ function fisherYatesN(bits: bigint, size: number, seed: XorshiftSeed) {
     const exchangeOffsetN = BigInt(Math.floor(prng1.random() * (size - i)));
     const ithMaskN = 1n << BigInt(i);
     const exchangeXorBit = ((bits >> exchangeOffsetN) ^ bits) & ithMaskN;
-    const exchangePattern = exchangeXorBit | (exchangeXorBit << exchangeOffsetN);
+    const exchangePattern =
+      exchangeXorBit | (exchangeXorBit << exchangeOffsetN);
     bits ^= exchangePattern;
   }
   return bits;

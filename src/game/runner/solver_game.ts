@@ -1,33 +1,20 @@
+import { Rule } from "../types";
 import { Game } from "./game";
 import { GameState } from "./game_state";
 import { MineMap } from "../sized_map/mine_map";
-import { XorshiftSeed } from "../lib/xorshift_seed";
+import { XorshiftSeed } from "../types";
 
 export class SolverGame implements Game {
-  width: number;
-  height: number;
-  mineCount: number;
+  rule: Rule;
   mineMap: MineMap;
 
   constructor(gameState: GameState, seed: XorshiftSeed) {
-    this.width = gameState.width;
-    this.height = gameState.height;
-    this.mineCount = gameState.mineCount;
-    this.mineMap = MineMap.newGame(
-      gameState.width,
-      gameState.height,
-      gameState.mineCount,
-      seed
-    );
+    this.rule = gameState.rule;
+    this.mineMap = MineMap.newGame(gameState.rule, seed);
   }
 
-  static newGame(
-    width: number,
-    height: number,
-    mineCount: number,
-    seed: XorshiftSeed
-  ) {
-    return new SolverGame(GameState.newGame(width, height, mineCount), seed);
+  static newGame(rule: Rule, seed: XorshiftSeed) {
+    return new SolverGame(GameState.newGame(rule), seed);
   }
 
   async open(x: number, y: number) {
