@@ -43,6 +43,9 @@ export class GameState {
       this.numberMap.update(x, y, value),
       this.flagMap
     );
+
+    // this.numberMap = this.numberMap.update(x, y, value);
+    // return this;
   }
 
   updateMultiple(list: { x: number; y: number; value: number }[]) {
@@ -51,6 +54,9 @@ export class GameState {
       this.numberMap.updateMultiple(list),
       this.flagMap
     );
+
+    // this.numberMap = this.numberMap.updateMultiple(list);
+    // return this;
   }
 
   toggleFlag(x: number, y: number) {

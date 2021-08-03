@@ -6,6 +6,9 @@ import { XorshiftSeed } from "../types";
 import { Boom } from "../error/boom_error";
 import { scanLineSeedFill } from "../lib/scan_line_seed_fill";
 
+const sleep = (msec: number) =>
+  new Promise((resolve) => setTimeout(resolve, msec));
+
 export class LocalGame implements Game {
   rule: Rule;
   gameState: GameState;
@@ -27,7 +30,15 @@ export class LocalGame implements Game {
     // adjacent.forEach((x, y) => { this.open(x, y) })
   }
 
-  async open(x: number, y: number): Promise<LocalGame> {
+  open(x: number, y: number): Promise<LocalGame> {
+    return new Promise((fulfilled) => {
+      return fulfilled(this.openRun(x, y));
+    });
+  }
+
+  async openRun(x: number, y: number): Promise<LocalGame> {
+    // await sleep(x * 200);
+
     // TODO: fetch data from repository
     if (this.gameState.isFlag(x, y)) {
       // noop
@@ -58,6 +69,7 @@ export class LocalGame implements Game {
       if (updatedGame.isWin()) {
         updatedGame.win();
       }
+
       return updatedGame;
     }
   }

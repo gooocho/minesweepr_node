@@ -15,8 +15,14 @@ const Body: React.FC<{
   const defaultCellState = [...new Array(rule.width * rule.height)].fill(
     GameState.EMPTY_CELL
   );
+  const defaultCellOpeningState = [...new Array(rule.width * rule.height)].fill(
+    false
+  );
 
   const [cellState, setCellState] = useState(defaultCellState);
+  const [cellOpeningState, setCellOpeningState] = useState(
+    defaultCellOpeningState
+  );
 
   const openCell = useCallback((x, y) => {
     game.open(x, y).then(
@@ -25,13 +31,29 @@ const Body: React.FC<{
         game = updatedGame;
         // update state, and render
         setCellState((current) => {
-          return game.numbers();
+          return game
+                   .numbers()
+                   .map((el, index) => el !== GameState.EMPTY_CELL ? el : current[index]);
+        });
+        setCellOpeningState((current) => {
+          return [
+            ...current.slice(0, y * rule.width + x),
+            false,
+            ...current.slice(y * rule.width + x + 1),
+          ];
         });
       },
       (rejected: any) => {
         console.info("boom(click event)");
       }
     );
+    setCellOpeningState((current) => {
+      return [
+        ...current.slice(0, y * rule.width + x),
+        true,
+        ...current.slice(y * rule.width + x + 1),
+      ];
+    });
   }, []);
 
   const matrix = [...new Array(rule.height)].map((_, y) => (
@@ -43,6 +65,7 @@ const Body: React.FC<{
           x={x}
           y={y}
           number={cellState[rule.width * y + x]}
+          opening={cellOpeningState[rule.width * y + x]}
           openCell={openCell}
         />
       ))}
